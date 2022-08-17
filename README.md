@@ -25,3 +25,36 @@ Nesta técnica, diferente do Cluster, você divide as instâncias em racks separ
 #### Partition
 
 Nesta técnica, você distribui pelas AZs oque é chamado de partições, cada partição irá rodar em um rack de hardware único, cada partição pode ter de 1 a 100 instâncias, cada Placement Group pode ter de 1 a 7 partições. As instâncias rodando dentro da mesma partição terão uma latência reduzida para comunicarem entre si. Esta abordagem pode ser colocada como um misto entre o cluster e o spread. Você pode descobrir detalhes sobre as partições acessando os arquivos de metadados delas. Casos de uso: Sistemas de BigData, Banco de Dados e Filas.
+
+### [ENI (Elastic Network Interface)](https://aws.amazon.com/pt/blogs/aws/new-elastic-network-interfaces-in-the-virtual-private-cloud/)
+
+ENIs são componentes lógico (Virtual Network Card) que atuam como interfaces de redes permitindo que instâncias EC2 se comuniquem com a rede.
+Cada ENI possui os seguintes atributos:
+
+* Um IP **IPv4** privado primário e mais um secundário.
+* Um IP elástico (IPv4) por IPv4 privado.
+* Um IPv4 público.
+* Um ou mais security groups.
+* Um endereço MAC.
+
+Apesar de estarem anexadas à instâncias EC2, as ENIs podem ser desassociadas destas e religadas em outras instâncias, isso é útil em caso de falha em alguma instância e para se ter um melhor controle sobre as conexões de suas instâncias. Também, cada ENI está associada à uma AZ.
+
+### Hibernando instâncias EC2
+
+EC2 Hibernate é o processo de colocar uma instância EC2 em modo hibernação, desta forma, tal como um SO comum, a instância irá interromper todos os processos, incluindo o SO, porém, manterá a memória RAM intácta de forma que ao reiniciar o sistema, todas as configurações e variáveis já estarão disponíveis na memória e, portanto, não precisarão ser carregadas do zero. Ao colocar uma instância para hibernar, o EC2 cria um arquivo na raiz do volume EBS principal e aloca neste arquivo toda a memória RAM da instância.
+
+Casos de uso:
+
+* Processos a serem executados a longo prazo.
+* Mantendo a memória RAM salva.
+* Serviços que precisam de um bom tempo para inicializar.
+
+Condições:
+
+* O volume EBS associado à instância precisa ser criptografado.
+* A maioria  dos tipos de instâncias EC2 são permitidas(C3, C4, C5, I3, M3, etc...)
+* A memória RAM da instância deve ser menor que 150GB.
+* Não disponível para instâncias do tipo "Bare Metal".
+* Várias AMIs permitidas(Amazon Linux 2, Linux AMI, Ubuntu, Windows, etc...).
+* Disponível para instâncias On-Demand, Reservadas e Spot.
+* O período de hibernação não pode ultrapassar 60 dias.
