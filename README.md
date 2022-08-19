@@ -58,3 +58,28 @@ Condições:
 * Várias AMIs permitidas(Amazon Linux 2, Linux AMI, Ubuntu, Windows, etc...).
 * Disponível para instâncias On-Demand, Reservadas e Spot.
 * O período de hibernação não pode ultrapassar 60 dias.
+
+### EC2 Nitro
+
+EC2 Nitro é o nome da plataforma utilizada para a próxima geração de instâncias EC2.
+
+Novidades com o nitro:
+
+* Nova tecnologia de virtualização.
+* Performance Melhorada:
+
+    * Opções de conexão de rede mais performáticas (enhanced networking, HPC, IPv6)
+    * Maior velocidade de comunicação com o EBS (64.000 IOPS comparado com 32.000 das gerações anteriores)
+    * Segurança aprimorada
+
+Você saberá se está utilizando uma instância do tipo Nitro pela geração da mesma, ex: C5, C5a, D3. Gerações mais antigas não são do tipo Nitro.
+
+### Costomizando a utilização de vCPUs
+
+As instâncias da AWS, tal como um computador covencional, rodam em processadores multicore e multithread. Porém, você é cobrado pelo total de cores e threads que você utiliza, ex: instância do tipo r4.2xlarge te permite usar 4 cores com 2 threads rodando por core. Você pode customizar isso, se você estiver rodando algum serviço que deixará algum core oscioso, ao criar a instância diga que quer utilizar menos cores ou menos threads por core, desta forma você consome menos recurso e paga menos. Só é possível customizar a quantidade de cores e thredas na inicialização da instância.
+
+### Reservas de capacidade EC2
+
+Permitem que você reserve instâncias EC2 sem ter que seguir a regra de 1-3 anos. Você deve especificar quantas AZs irá utilizar, quantas instâncias pretende utilizar e as características delas, tipo, SO, plataforma, etc...
+
+Use isso combinado com o sistema principal de reserva de instâncias e Saving Plans para economizar mais.
