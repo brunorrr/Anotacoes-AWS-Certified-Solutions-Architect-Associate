@@ -83,3 +83,33 @@ As instâncias da AWS, tal como um computador covencional, rodam em processadore
 Permitem que você reserve instâncias EC2 sem ter que seguir a regra de 1-3 anos. Você deve especificar quantas AZs irá utilizar, quantas instâncias pretende utilizar e as características delas, tipo, SO, plataforma, etc...
 
 Use isso combinado com o sistema principal de reserva de instâncias e Saving Plans para economizar mais.
+
+## EBS (Elastic Block Store)
+
+EBS é um serviço de drives de rede que podem ser utilizados juntamente com instâncias EC2. Um volume EBS emula um disco físico, ainda que seja, na verdade, um disco virtual disponível na rede. Cada volume EBS pode ser associado à apenas uma instância EC2 por vez, enquanto que uma instância EC2 pode ter N volumes EBS em uma relação 1-N, sendo N > 0. Cada volume EBS está associado à uma AZ e se comunica com sua instância por meio de uma interface de rede(como um drive acessado pela rede no SO).
+
+EBS é elegível para o Free Tier com a disponibilidade de 30GB do tipo SSD ou HD por mês.
+
+Volumes EBS podem ser adquiridos e precificados com base no seu tamanho(em GB) e tráfego(em IOPS). Ambas as opções são modificáveis com o tempo.
+
+Ao criar uma instância EC2 e um volume EBS, você pode determinar se o volume será excluido após o termino da instância, a depender da sua necessidade, isso pode ser feito pelo console, por CLIs ou scripts.
+
+### Snapshots EBS
+
+É possível criar snapshots se seus volumes EBSs, elas conterão um backup de todos os arquivos do volume. Não é necessário desligar o volume de uma instância(ainda que seja recomendado), você pode criar várias snapshots do mesmo volume em momentos diferentes, também pode copiar essas snapshots para outras AZs e Regions, desta forma, pode espalhar o volume EBS para AZs diferentes.
+
+#### Snapshot Archive
+
+São storages de armazenamento de longo prazo em que você pode deixar seus backups. Podem chegar a ser 75% mais barato que o armazenamento de snapshots regular. Uma vez que tenha armazenado uma snapshot no archive, leva-se entre 24 e 72 horas para restaura-la e deixa-la pronta para uso.
+
+#### Lixeira de Snapshots(EBS Snapshot Recycle Bin)
+
+A lixeira das Snaphots é uma regra que você aplica a snapshots em que você pretende excluir, essas lixeiras guardam as snapshots por um tempo, de forma que se você excluir uma acidentalmente, você pode recupera-la sem problemas. O tempo de retenção de uma snapshot na lixeira pode variar de 1 dia a 1 ano a depender da sua configuração. Após este periodo a snapshot é excluida definitivamente.
+
+## AMI (Amazon Machine Images)
+
+AMIs são customizações que podem ser feitas em cima de instâncias EC2, exemplo: Você quer criar uma instância EC2 em Linux com a JRE 17 instalada, ao invés de criar uma instância EC2 e instalar a JRE nela, você cria uma imagem de instância(AMI) e, ao criar a instância, cria ela a partir desta imagem.
+
+Você pode criar suas próprias AMIs, de acordo com sua necessidade, pode utilizar AMIs públicas criadas pela própria AWS ou, ainda, pode obter(de graça ou não) imagens disponíveis na AWS Marketplace, onde outros usuários disponibilizam(de graça ou não) AMIs criadas por eles para outros usuários.
+
+Para criar uma AMI você deve criar uma instância EC2 tradicional, customiza-la, para-la e construir uma AMI em cima desta, isso também criará uma snapshot do volume EBS, a partir daí, você poderá criar instâncias EC2 a partir desta AMI.
